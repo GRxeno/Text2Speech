@@ -18,6 +18,14 @@ the button presses or actions and replay them at a later time.
 
 ---
 
+## Screenshots
+
+![Dark Theme](/screenshots/DarkTheme.png?raw=true "Dark Theme")
+
+![Light Theme](/screenshots/LightTheme.png?raw=true "Light Theme")
+
+---
+
 ## Functionality
 
 The user can:
