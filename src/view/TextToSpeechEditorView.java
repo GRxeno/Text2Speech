@@ -6,6 +6,9 @@ import javax.swing.*;
 import commands.*;
 import model.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -39,6 +42,24 @@ public class TextToSpeechEditorView {
 
 	//Show the application.
 	public static void main(String args[]) {
+		  try {
+			    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+			      if ("Nimbus".equals(info.getName())) {
+		          javax.swing.UIManager.setLookAndFeel(info.getClassName());
+		          break;
+		      }
+		    }
+		  } catch (ClassNotFoundException e) {
+		    e.printStackTrace();
+		  } catch (InstantiationException e) {
+		    e.printStackTrace();
+		  } catch (IllegalAccessException e) {
+		    e.printStackTrace();
+		  } catch (javax.swing.UnsupportedLookAndFeelException e) {
+		    e.printStackTrace();
+		  } catch (Exception e) {
+		    e.printStackTrace();
+		  }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -76,7 +97,8 @@ public class TextToSpeechEditorView {
 		frmTextToSpeech.setTitle("Text To Speech");
 		frmTextToSpeech.setBounds(200, 200, 620, 620);
 		frmTextToSpeech.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmTextToSpeech.getContentPane().setLayout(null);		
+		frmTextToSpeech.getContentPane().setLayout(null);
+		changeToLightTheme();
 		
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setEditable(false);
@@ -184,6 +206,9 @@ public class TextToSpeechEditorView {
 		lblNewLabel.setBounds(500, 174, 43, 20);
 		frmTextToSpeech.getContentPane().add(lblNewLabel);
 		
+	    // Disable keyboard edits in the spinner
+	    JFormattedTextField tf = ((JSpinner.DefaultEditor) lineSpinner.getEditor()).getTextField();
+	    tf.setEditable(false);
 		lineSpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if((int)lineSpinner.getValue() < 0) {
@@ -194,7 +219,7 @@ public class TextToSpeechEditorView {
 				}
 			}
 		});
-		lineSpinner.setBounds(539, 175, 50, 20);
+		lineSpinner.setBounds(539, 172, 50, 25);
 		frmTextToSpeech.getContentPane().add(lineSpinner);
 		
 		JButton buttonPlayLine = new JButton("Play Line");
@@ -235,7 +260,7 @@ public class TextToSpeechEditorView {
 		
 		// ------------------ SpeakSettings ------------------
 		
-		JLabel label_settings = new JLabel("Speak Settings");
+		JLabel label_settings = new JLabel("Voice Settings");
 		label_settings.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_settings.setHorizontalAlignment(SwingConstants.CENTER);
 		label_settings.setBounds(493, 361, 96, 23);
@@ -358,9 +383,109 @@ public class TextToSpeechEditorView {
 				doc.setEncryption("atBash");
 			}
 		});
+
+		JMenu Menu_theme = new JMenu(" Theme ");
+		Menu_theme.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		menuBar.add(Menu_theme);
 		
-		// ------------------ /MenuBar ------------------
+		JRadioButtonMenuItem themeRadioItem_Light = new JRadioButtonMenuItem(" Light ");
+		themeRadioItem_Light.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		themeRadioItem_Light.setSelected(true);
+		Menu_theme.add(themeRadioItem_Light);
 		
+		JRadioButtonMenuItem themeRadioItem_Dark = new JRadioButtonMenuItem(" Dark ");
+		themeRadioItem_Dark.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		Menu_theme.add(themeRadioItem_Dark);
+		
+		themeRadioItem_Light.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				themeRadioItem_Dark.setSelected(false);
+				themeRadioItem_Light.setSelected(true);
+				changeToLightTheme();
+			}
+		});
+		
+		themeRadioItem_Dark.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				themeRadioItem_Dark.setSelected(true);
+				themeRadioItem_Light.setSelected(false);
+				changeToDarkTheme();
+			}
+		});
+		
+		JMenu Menu_help = new JMenu(" Help ");
+		Menu_help.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		menuBar.add(Menu_help);
+		
+		JMenuItem MenuItem_onlineHelp = new JMenuItem("Online Help");
+		MenuItem_onlineHelp.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		MenuItem_onlineHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI("https://github.com/GRxeno/Text2Speech"));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (URISyntaxException e1) {
+					e1.printStackTrace();
+				}         
+			}
+		});
+		Menu_help.add(MenuItem_onlineHelp);
+		
+		JMenuItem MenuItem_about = new JMenuItem("About");
+		MenuItem_about.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		MenuItem_about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(frmTextToSpeech, "Text2speech is an advanced text to speech application that converts text from a file\n"
+															 + " or the build-in editor to speech. The user can open a document, edit and save the\n"
+															 + " contents of it with no, rot13 or atbash encryption and convert it to speech.\n"
+															 + "The voice is fully customizable, the volume, pitch and rate can be adjusted with sliders.");     
+			}
+		});
+		Menu_help.add(MenuItem_about);
+		
+		// ------------------ /MenuBar ------------------	
 	}
+	
+	public void changeToLightTheme() {
+		  UIManager.put( "control", new Color( 214, 217, 223) );
+		  UIManager.put( "info", new Color( 242, 242, 189) );
+		  UIManager.put( "nimbusBase", new Color( 51, 98, 140) );
+		  UIManager.put( "nimbusAlertYellow", new Color( 255, 220, 35) );
+		  UIManager.put( "nimbusDisabledText", new Color( 142, 143, 145) );
+		  UIManager.put( "nimbusFocus", new Color( 115, 164, 209) );
+		  UIManager.put( "nimbusGreen", new Color( 176, 179, 50) );
+		  UIManager.put( "nimbusInfoBlue", new Color( 47, 92, 180) );
+		  UIManager.put( "nimbusLightBackground", new Color( 255, 255, 255) );
+		  UIManager.put( "nimbusOrange", new Color( 191, 98, 4) );
+		  UIManager.put( "nimbusRed", new Color( 169, 46, 34) );
+		  UIManager.put( "nimbusSelectedText", new Color( 255, 255, 255) );
+		  UIManager.put( "nimbusSelectionBackground", new Color( 57, 105, 138) );
+		  UIManager.put( "text", new Color( 0, 0, 0) );
+		  JFormattedTextField tf = ((JSpinner.DefaultEditor) lineSpinner.getEditor()).getTextField();
+		  tf.setBackground(Color.white);
+		SwingUtilities.updateComponentTreeUI(frmTextToSpeech);
+	}
+	
+	public void changeToDarkTheme(){
+		  UIManager.put( "control", new Color( 128, 128, 128) );
+		  UIManager.put( "info", new Color(128,128,128) );
+		  UIManager.put( "nimbusBase", new Color( 18, 30, 49) );
+		  UIManager.put( "nimbusAlertYellow", new Color( 248, 187, 0) );
+		  UIManager.put( "nimbusDisabledText", new Color( 128, 128, 128) );
+		  UIManager.put( "nimbusFocus", new Color(115,164,209) );
+		  UIManager.put( "nimbusGreen", new Color(176,179,50) );
+		  UIManager.put( "nimbusInfoBlue", new Color( 66, 139, 221) );
+		  UIManager.put( "nimbusLightBackground", new Color( 18, 30, 49) );
+		  UIManager.put( "nimbusOrange", new Color(191,98,4) );
+		  UIManager.put( "nimbusRed", new Color(169,46,34) );
+		  UIManager.put( "nimbusSelectedText", new Color( 255, 255, 255) );
+		  UIManager.put( "nimbusSelectionBackground", new Color( 104, 93, 156) );
+		  UIManager.put( "text", new Color( 250, 250, 250) );
+		  JFormattedTextField tf = ((JSpinner.DefaultEditor) lineSpinner.getEditor()).getTextField();
+		  tf.setBackground(Color.black);
+		SwingUtilities.updateComponentTreeUI(frmTextToSpeech);
+	}
+	
 }
 

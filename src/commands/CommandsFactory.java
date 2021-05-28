@@ -22,7 +22,6 @@ public class CommandsFactory {
 	private JButton replay;
 	private JButton editButton;
 
-	
 	private OpenDocument open;
 	private SaveDocument save;
 	private DocumentToSpeech speech;
