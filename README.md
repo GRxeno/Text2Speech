@@ -20,9 +20,7 @@ the button presses or actions and replay them at a later time.
 
 ## Screenshots
 
-![Dark Theme](/screenshots/DarkTheme.png?raw=true "Dark Theme")
-
-![Light Theme](/screenshots/LightTheme.png?raw=true "Light Theme")
+<img src="/screenshots/DarkTheme.png?raw=true" alt="Dark Theme" width="300" height="300" /> <img src="/screenshots/LightTheme.png?raw=true" alt="Light Theme" width="300" height="300" />
 
 ---
 
