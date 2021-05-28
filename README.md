@@ -53,7 +53,7 @@ He can listen only a part of the contents of the file instead of all.
     ```
     git clone https://github.com/GRxeno/Text2Speech.git
     ```
-2. Import it in Eclipse.
+2. Import it to Eclipse IDE.
 
 3. Add all external JARs inside the lib folder to the project (FREE TTS and POI).
 
