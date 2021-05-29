@@ -49,6 +49,8 @@ He can listen only a part of the contents of the file instead of all.
 
 ## How To Run
 
+[![Watch the video]()](https://www.youtube.com/watch?v=AmEEt30hPbA)
+
 1. Download the repository files (project) from the download section or clone this project by typing in the bash the following command:
     ```
     git clone https://github.com/GRxeno/Text2Speech.git
